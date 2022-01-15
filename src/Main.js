@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FavoritesScreen from './favorites/Favorites';
+import LoginScreen from './login/LoginScreen';
 import ProfileScreen from './profile/Profile';
 import SearchScreen from './search/Search';
 import SettingsScreen from './settings/Settings';
@@ -35,6 +36,7 @@ const MainPage = () => {
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Login" component={LoginScreen} />
     </Tab.Navigator>
   )
 }
