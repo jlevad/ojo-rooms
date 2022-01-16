@@ -2,7 +2,7 @@ import { Text } from 'react-native';
 
 const SettingsScreen = () => {
   return (
-    <Text>Profile</Text>
+    <Text>Settings</Text>
   )
 }
 

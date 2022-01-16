@@ -28,11 +28,12 @@ const styles = StyleSheet.create({
 
   inputView: {
     backgroundColor: "tomato",
-    borderRadius: 30,
+    borderRadius: 5,
     width: "90%",
     height: 45,
     marginBottom: 20,
     flexDirection: 'row',
+    alignItems: 'center'
   },
 
   icon: {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 
   loginBtn: {
     width: "80%",
-    borderRadius: 25,
+    borderRadius: 5,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
   },
 
   loginText: {
-    color: 'white'
+    color: 'white',
+    fontWeight: 'bold'
   }
 });
 
@@ -75,7 +77,7 @@ const LoginScreen = (props) => {
       dispatch(loginSuccess(user));
       props.navigation.navigate('Profile');
     } else {
-      dispatch(loginFailure())
+      dispatch(loginFailure());
     }
   }
 
@@ -88,6 +90,7 @@ const LoginScreen = (props) => {
           style={styles.TextInput}
           placeholder="username / email"
           placeholderTextColor="white"
+          keyboardType="email-address"
           onChangeText={(username) => setUsername(username)}
         />
       </View>
