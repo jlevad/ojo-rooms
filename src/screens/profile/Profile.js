@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -139,6 +139,10 @@ const ProfileScreen = (props) => {
   const handleUpdate = (data) => {
     dispatch(updateUser(data));
   }
+
+  useEffect(() => {
+    setDataUser(user);
+  }, [user]);
 
   return (
     <ScrollView>
