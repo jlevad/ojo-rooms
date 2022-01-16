@@ -13,7 +13,7 @@ import {
   loginFailure,
   loginSuccess,
   logout,
-} from '../redux/userRedux'
+} from '../../redux/userRedux'
 
 const styles = StyleSheet.create({
   container: {

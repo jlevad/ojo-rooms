@@ -14,7 +14,7 @@ import {
   loginStart,
   loginFailure,
   loginSuccess
-} from '../redux/userRedux'
+} from '../../redux/userRedux'
 import user from './UserDummy.json';
 
 const styles = StyleSheet.create({
