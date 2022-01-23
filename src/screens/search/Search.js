@@ -44,6 +44,8 @@ const SearchScreen = () => {
     getData();
   }, []);
 
+  // console.log('testttt', hotelTop5);
+
   return (
     <ScrollView style={styles.container}>
       <View className="container-search">
@@ -122,8 +124,8 @@ const SearchScreen = () => {
         >
           {
             loading ? <Text>Loading...</Text>
-              : hotelTop5.length !== 0 ?
-                hotelTop5.map((data, index) => (
+              : hotelTop5?.length !== 0 && hotelTop5 !== 'undifined' ?
+                hotelTop5?.map((data, index) => (
                   <TouchableHighlight
                     style={styles.placeItem}
                     key={index}
@@ -153,8 +155,8 @@ const SearchScreen = () => {
         >
           {
             loading ? <Text>Loading...</Text>
-              : hotelTop5.length !== 0 ?
-                hotelTop5.map((data, index) => (
+              : hotelTop5?.length !== 0 && hotelTop5 !== 'undifined' ?
+                hotelTop5?.map((data, index) => (
                   <TouchableHighlight
                     style={styles.placeItem}
                     key={index}

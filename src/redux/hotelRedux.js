@@ -3,15 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const hotelSlice = createSlice({
   name: 'hotel',
   initialState: {
-    hotelTop5: {
-      city_name: '',
-      country_name: '',
-      hotel_name: '',
-      hotel_description: '',
-      id_hotel: '',
-      review: '',
-      image: '',
-    },
+    hotelTop5: [],
     loading: false,
     error: false,
   },
