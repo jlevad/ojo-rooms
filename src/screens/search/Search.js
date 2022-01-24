@@ -19,7 +19,7 @@ import {
 } from '../../redux/hotelRedux'
 import axios from 'axios';
 
-const SearchScreen = () => {
+const SearchScreen = (props) => {
   const dispatch = useDispatch();
   const { hotelTop5, loading, error } = useSelector((state) => state.hotel);
   const [selectedValue, setSelectedValue] = useState('Guest');
@@ -36,8 +36,8 @@ const SearchScreen = () => {
       })
   }
 
-  const _onPressButton = () => {
-    alert('You tapped the button!');
+  const _onPressButton = (data) => {
+    props.navigation.navigate('Detail', { detail: data });
   };
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const SearchScreen = () => {
                   <TouchableHighlight
                     style={styles.placeItem}
                     key={index}
-                    onPress={_onPressButton}
+                    onPress={() => _onPressButton(data)}
                     underlayColor="white"
                   >
                     <>
@@ -160,7 +160,7 @@ const SearchScreen = () => {
                   <TouchableHighlight
                     style={styles.placeItem}
                     key={index}
-                    onPress={_onPressButton}
+                    onPress={() => _onPressButton(data)}
                     underlayColor="white"
                   >
                     <>

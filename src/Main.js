@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import DetailHotel from './screens/detail-hotels/DetailHotel';
 import FavoritesScreen from './screens/favorites/Favorites';
 import LoginScreen from './screens/login/LoginScreen';
 import ProfileScreen from './screens/profile/Profile';
@@ -19,14 +20,24 @@ const ProfileStackScreen = () => {
   );
 }
 
+const SearchStackScreen = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="Detail" component={DetailHotel} />
+    </Stack.Navigator>
+  );
+}
+
 const MainPage = () => {
   return (
     <Tab.Navigator
+      initialRouteName='Searchs'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Search') {
+          if (route.name === 'Searchs') {
             iconName = focused ? 'search' : 'search';
           } else if (route.name === 'Favorites') {
             iconName = focused ? 'favorite' : 'favorite-outline';
@@ -43,7 +54,7 @@ const MainPage = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Searchs" component={SearchStackScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
       <Tab.Screen name="Profiles" component={ProfileStackScreen} options={{ headerShown: false }} />
