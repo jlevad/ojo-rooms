@@ -1,11 +1,13 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import hotelReducer from './hotelRedux';
+import top5Reducer from './hotels/Top5Redux';
+import hotelsReducer from './hotels/HotelsRedux';
 import userReducer from './userRedux';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  hotel: hotelReducer
+  top5: top5Reducer,
+  hotels: hotelsReducer
 });
 
 export const store = configureStore({

@@ -16,16 +16,27 @@ import {
   loadStart,
   loadFailure,
   loadSuccess
-} from '../../redux/hotelRedux'
+} from '../../redux/hotels/Top5Redux'
+import {
+  loadHotelsStart,
+  loadHotelsFailure,
+  loadHotelsSuccess
+} from '../../redux/hotels/HotelsRedux'
 import axios from 'axios';
+import ListHotels from './ListHotels';
 
 const SearchScreen = (props) => {
   const dispatch = useDispatch();
-  const { hotelTop5, loading, error } = useSelector((state) => state.hotel);
+  const { hotelTop5, loading, error } = useSelector((state) => state.top5);
+  const { hotels, loadingHotels } = useSelector((state) => state.hotels);
   const [selectedValue, setSelectedValue] = useState('Guest');
+  const [searchValue, setSearchValue] = useState('');
+  const [dataSearch, setDataSearch] = useState([]);
+  const [loadingSearch, setLoadingSearch] = useState(true);
+  const [diplaySearch, setDisplaySearch] = useState(false);
+  const base_url = `http://47.254.245.112:8080/`
 
-  const getData = () => {
-    let base_url = `http://47.254.245.112:8080/`
+  const getDataTop5 = () => {
     dispatch(loadStart());
     axios.get(`${base_url}hotelsTop5`)
       .then((res) => {
@@ -36,15 +47,41 @@ const SearchScreen = (props) => {
       })
   }
 
-  const _onPressButton = (data) => {
-    props.navigation.navigate('Detail', { detail: data });
-  };
+  const getAllData = () => {
+    dispatch(loadHotelsStart());
+    axios.get(`${base_url}hotels`)
+      .then((res) => {
+        dispatch(loadHotelsSuccess(res.data));
+      }).catch((err) => {
+        console.log(err)
+        dispatch(loadHotelsFailure());
+      })
+  }
+
+  const handleSearch = () => {
+    setLoadingSearch(true);
+    if (searchValue !== '') {
+      setDisplaySearch(true);
+      axios.get(`${base_url}hotels/search/${searchValue}`)
+        .then((response) => {
+          setDataSearch(response.data);
+          setLoadingSearch(false);
+        })
+        .catch((err) => {
+          setDataSearch([]);
+          setLoadingSearch(false);
+          alert(err);
+        })
+    } else {
+      alert('Value search is Empty!')
+      setDisplaySearch(false);
+    }
+  }
 
   useEffect(() => {
-    getData();
+    getDataTop5();
+    getAllData();
   }, []);
-
-  // console.log('testttt', hotelTop5);
 
   return (
     <ScrollView style={styles.container}>
@@ -53,12 +90,14 @@ const SearchScreen = (props) => {
           <MaterialIcons name="search" size={20} style={styles.icon} />
           <TextInput
             style={styles.TextInput}
-            placeholder="Where do you want to go?"
+            placeholder="Search Hotels"
             placeholderTextColor="white"
-            keyboardType="email-address"
+            onChangeText={setSearchValue}
+            value={searchValue}
+          // keyboardType="email-address"
           />
         </View>
-        <View style={styles.datePickContainer}>
+        {/* <View style={styles.datePickContainer}>
           <View style={styles.dateInput}>
             <MaterialIcons
               name="calendar-today"
@@ -110,73 +149,35 @@ const SearchScreen = (props) => {
               style={styles.pickerItem}
             />
           </Picker>
-        </View>
-        <TouchableOpacity style={styles.loginBtn}>
+        </View> */}
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPress={handleSearch}
+        >
           <Text style={styles.loginText}>Search</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 20 }}>
-        <Text style={styles.titleCategory}>Top Destinations</Text>
-        <ScrollView
-          style={styles.placeWrap}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          {
-            loading ? <Text>Loading...</Text>
-              : hotelTop5?.length !== 0 && hotelTop5 !== 'undifined' ?
-                hotelTop5?.map((data, index) => (
-                  <TouchableHighlight
-                    style={styles.placeItem}
-                    key={index}
-                    onPress={() => _onPressButton(data)}
-                    underlayColor="white"
-                  >
-                    <>
-                      <Image
-                        style={styles.itemImage}
-                        source={{
-                          uri: `${data?.image}`,
-                        }}
-                      />
-                      <Text style={styles.titlePlace}>{data?.hotel_name}</Text>
-                    </>
-                  </TouchableHighlight>
-                )) : <Text>Data tidak tersedia</Text>
-          }
-        </ScrollView>
-      </View>
-      <View style={{ marginTop: 20 }}>
-        <Text style={styles.titleCategory}>Popular Destinations</Text>
-        <ScrollView
-          style={styles.placeWrap}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        >
-          {
-            loading ? <Text>Loading...</Text>
-              : hotelTop5?.length !== 0 && hotelTop5 !== 'undifined' ?
-                hotelTop5?.map((data, index) => (
-                  <TouchableHighlight
-                    style={styles.placeItem}
-                    key={index}
-                    onPress={() => _onPressButton(data)}
-                    underlayColor="white"
-                  >
-                    <>
-                      <Image
-                        style={styles.itemImage}
-                        source={{
-                          uri: `${data?.image}`,
-                        }}
-                      />
-                      <Text style={styles.titlePlace}>{data?.hotel_name}</Text>
-                    </>
-                  </TouchableHighlight>
-                )) : <Text>Data tidak tersedia</Text>
-          }
-        </ScrollView>
-      </View>
+      {
+        diplaySearch ?
+          <ListHotels
+            title="Search Results"
+            data={dataSearch}
+            loading={loadingSearch}
+            navigation={props.navigation}
+          /> : null
+      }
+      <ListHotels
+        title="Top 5 Hotels"
+        data={hotelTop5}
+        loading={loading}
+        navigation={props.navigation}
+      />
+      <ListHotels
+        title="All Hotels"
+        data={hotels}
+        loading={loadingHotels}
+        navigation={props.navigation}
+      />
     </ScrollView>
   );
 };
@@ -231,39 +232,12 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 5,
     backgroundColor: 'red',
   },
   loginText: {
     color: 'white',
     fontWeight: 'bold',
-  },
-  titleCategory: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  placeWrap: {
-    maxWidth: '100%',
-    marginTop: 10,
-    height: 120,
-  },
-  placeItem: {
-    marginRight: 10,
-    width: 120,
-    position: 'relative',
-  },
-  itemImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 8,
-    position: 'absolute',
-  },
-  titlePlace: {
-    position: 'absolute',
-    bottom: 10,
-    left: 10,
-    fontSize: 18,
-    color: 'white',
   },
 });
 

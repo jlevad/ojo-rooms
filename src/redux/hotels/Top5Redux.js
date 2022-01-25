@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const hotelSlice = createSlice({
-  name: 'hotel',
+const top5Slice = createSlice({
+  name: 'top5',
   initialState: {
     hotelTop5: [],
     loading: false,
@@ -20,23 +20,10 @@ const hotelSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    // logout: (state) => {
-    //   state.loading = false;
-    //   state.hotel = {
-    //     city_name: '',
-    //     country_name: '',
-    //     hotel_name: '',
-    //     hotel_description: '',
-    //     id_hotel: '',
-    //     review: '',
-    //     image: '',
-    //   };
-    //   state.error = false;
-    // },
   },
 });
 
 
 export const { loadStart, loadSuccess, loadFailure, hotelTop5 } =
-  hotelSlice.actions;
-export default hotelSlice.reducer;
+  top5Slice.actions;
+export default top5Slice.reducer;
