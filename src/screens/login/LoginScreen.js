@@ -16,6 +16,7 @@ import {
   loginSuccess
 } from '../../redux/userRedux'
 import user from './UserDummy.json';
+import API from '../../api.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -68,17 +69,20 @@ const styles = StyleSheet.create({
 const LoginScreen = (props) => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.user);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const login = () => {
     dispatch(loginStart());
-    if ((username === user.username || username === user.email) && password === user.password) {
-      dispatch(loginSuccess(user));
-      props.navigation.navigate('Profile');
-    } else {
-      dispatch(loginFailure());
-    }
+    axios.get(`${API.base_url}users/login/email/${email}/password/${password}`)
+      .then((response) => {
+        props.navigation.navigate('Profile');
+        dispatch(loginSuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(loginFailure());
+        console.log(err);
+      })
   }
 
 
@@ -88,10 +92,10 @@ const LoginScreen = (props) => {
         <MaterialIcons name='person' size={20} style={styles.icon} />
         <TextInput
           style={styles.TextInput}
-          placeholder="username / email"
+          placeholder="email"
           placeholderTextColor="white"
           keyboardType="email-address"
-          onChangeText={(username) => setUsername(username)}
+          onChangeText={(email) => setEmail(email)}
         />
       </View>
 
@@ -115,7 +119,7 @@ const LoginScreen = (props) => {
         </Text>
       </TouchableOpacity>
       {error && (
-        <Text>Wrong username or password</Text>
+        <Text>Wrong email or password</Text>
       )}
     </View >
   )

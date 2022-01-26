@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {
   Text,
@@ -10,9 +11,13 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
   logout,
-  updateUser,
 } from '../../redux/userRedux'
+
+import API from '../../api.json';
 
 const styles = StyleSheet.create({
   container: {
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
 
 const ProfileScreen = (props) => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state?.user);
+  const { user, loading } = useSelector((state) => state?.user);
   const [modalVisible, setModalVisible] = useState(false);
   const [dataUser, setDataUser] = useState(user);
 
@@ -137,7 +142,14 @@ const ProfileScreen = (props) => {
   }
 
   const handleUpdate = (data) => {
-    dispatch(updateUser(data));
+    dispatch(loginStart());
+    axios.put(`${API.base_url}users/${data.id_user}/update`, data)
+      .then((response) => {
+        dispatch(loginSuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(loginFailure());
+      })
   }
 
   useEffect(() => {
@@ -150,7 +162,7 @@ const ProfileScreen = (props) => {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>My Account</Text>
         </View>
-        {user.username !== '' ?
+        {user.id_user !== '' ?
           <>
             <View style={styles.innerContainer}>
               <View style={styles.inputView}>
@@ -159,10 +171,10 @@ const ProfileScreen = (props) => {
                   style={styles.TextInput}
                   placeholder="your first name"
                   placeholderTextColor="white"
-                  value={dataUser?.firstName}
+                  value={dataUser?.firstname}
                   onChangeText={(value) => setDataUser({
                     ...dataUser,
-                    firstName: value
+                    firstname: value
                   })}
                 />
               </View>
@@ -174,10 +186,10 @@ const ProfileScreen = (props) => {
                   style={styles.TextInput}
                   placeholder="your last name"
                   placeholderTextColor="white"
-                  value={dataUser?.lastName}
+                  value={dataUser?.lastname}
                   onChangeText={(value) => setDataUser({
                     ...dataUser,
-                    lastName: value
+                    lastname: value
                   })}
                 />
               </View>
@@ -217,7 +229,7 @@ const ProfileScreen = (props) => {
               onPress={() => handleUpdate(dataUser)}
             >
               <Text style={styles.loginText}>
-                Update Data
+                {loading ? 'Loading..' : 'Update Data'}
               </Text>
             </TouchableOpacity>
           </> :
@@ -275,7 +287,7 @@ const ProfileScreen = (props) => {
           </Text>
         </TouchableOpacity>
         {
-          user.username !== '' ?
+          user.id_user !== '' ?
             <TouchableOpacity
               style={styles.button}
               onPress={() => handleLogout()}

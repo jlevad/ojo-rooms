@@ -4,9 +4,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: {
-      username: '',
-      firstName: '',
-      lastName: '',
+      id_user: '',
+      firstname: '',
+      lastname: '',
       email: '',
       gender: '',
     },
@@ -18,6 +18,7 @@ const userSlice = createSlice({
       state.loading = true;
     },
     loginSuccess: (state, action) => {
+      delete action?.payload?.password;
       state.loading = false;
       state.error = false;
       state.user = action.payload;
@@ -29,21 +30,22 @@ const userSlice = createSlice({
     logout: (state) => {
       state.loading = false;
       state.user = {
-        username: '',
-        firstName: '',
-        lastName: '',
+        id_user: '',
+        firstname: '',
+        lastname: '',
         email: '',
         gender: '',
       };
       state.error = false;
     },
-    updateUser: (state, action) => {
-      state.user = action.payload;
-    },
   },
 });
 
 
-export const { loginStart, loginSuccess, loginFailure, logout, updateUser } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+} = userSlice.actions;
 export default userSlice.reducer;
