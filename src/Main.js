@@ -39,7 +39,7 @@ const MainPage = () => {
 
           if (route.name === 'Searchs') {
             iconName = focused ? 'search' : 'search';
-          } else if (route.name === 'Favorites') {
+          } else if (route.name === 'Wishlists') {
             iconName = focused ? 'favorite' : 'favorite-outline';
           } else if (route.name === 'Profiles') {
             iconName = focused ? 'person' : 'person-outline';
@@ -55,7 +55,7 @@ const MainPage = () => {
       })}
     >
       <Tab.Screen name="Searchs" component={SearchStackScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      <Tab.Screen name="Wishlists" component={FavoritesScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
       <Tab.Screen name="Profiles" component={ProfileStackScreen} options={{ headerShown: false }} />
       {/* <Tab.Screen name="Login" component={LoginScreen} /> */}

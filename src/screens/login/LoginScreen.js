@@ -15,7 +15,6 @@ import {
   loginFailure,
   loginSuccess
 } from '../../redux/userRedux'
-import user from './UserDummy.json';
 import API from '../../api.json';
 
 const styles = StyleSheet.create({
@@ -76,8 +75,12 @@ const LoginScreen = (props) => {
     dispatch(loginStart());
     axios.get(`${API.base_url}users/login/email/${email}/password/${password}`)
       .then((response) => {
-        props.navigation.navigate('Profile');
         dispatch(loginSuccess(response.data));
+        if (props?.route?.params?.hotel) {
+          props.navigation.navigate('Detail', { detail: props?.route?.params?.hotel })
+        } else {
+          props.navigation.navigate('Profile');
+        }
       })
       .catch((err) => {
         dispatch(loginFailure());

@@ -23,6 +23,7 @@ import {
   loadHotelsSuccess
 } from '../../redux/hotels/HotelsRedux'
 import axios from 'axios';
+import API from '../../api.json';
 import ListHotels from './ListHotels';
 
 const SearchScreen = (props) => {
@@ -34,11 +35,10 @@ const SearchScreen = (props) => {
   const [dataSearch, setDataSearch] = useState([]);
   const [loadingSearch, setLoadingSearch] = useState(true);
   const [diplaySearch, setDisplaySearch] = useState(false);
-  const base_url = `http://47.254.245.112:8080/`
 
   const getDataTop5 = () => {
     dispatch(loadStart());
-    axios.get(`${base_url}hotelsTop5`)
+    axios.get(`${API.base_url}hotelsTop5`)
       .then((res) => {
         dispatch(loadSuccess(res.data));
       }).catch((err) => {
@@ -49,7 +49,7 @@ const SearchScreen = (props) => {
 
   const getAllData = () => {
     dispatch(loadHotelsStart());
-    axios.get(`${base_url}hotels`)
+    axios.get(`${API.base_url}hotels`)
       .then((res) => {
         dispatch(loadHotelsSuccess(res.data));
       }).catch((err) => {
@@ -62,7 +62,7 @@ const SearchScreen = (props) => {
     setLoadingSearch(true);
     if (searchValue !== '') {
       setDisplaySearch(true);
-      axios.get(`${base_url}hotels/search/${searchValue}`)
+      axios.get(`${API.base_url}hotels/search/${searchValue}`)
         .then((response) => {
           setDataSearch(response.data);
           setLoadingSearch(false);

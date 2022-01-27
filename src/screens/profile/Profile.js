@@ -18,6 +18,7 @@ import {
 } from '../../redux/userRedux'
 
 import API from '../../api.json';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -128,17 +129,18 @@ const styles = StyleSheet.create({
 
 const ProfileScreen = (props) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation()
   const { user, loading } = useSelector((state) => state?.user);
   const [modalVisible, setModalVisible] = useState(false);
   const [dataUser, setDataUser] = useState(user);
 
   const handleLogout = () => {
     dispatch(logout());
-    props.navigation.navigate('Login');
+    navigation.navigate('Login');
   }
 
   const handleLogin = () => {
-    props.navigation.navigate('Login');
+    navigation.navigate('Login');
   }
 
   const handleUpdate = (data) => {

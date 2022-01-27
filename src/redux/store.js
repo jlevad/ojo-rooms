@@ -7,7 +7,7 @@ import userReducer from './userRedux';
 const rootReducer = combineReducers({
   user: userReducer,
   top5: top5Reducer,
-  hotels: hotelsReducer
+  hotels: hotelsReducer,
 });
 
 export const store = configureStore({
