@@ -98,7 +98,7 @@ const DetailHotel = (props) => {
                   setModalVisible(!modalVisible);
                 }}
               >
-                <BookingDialog modalVisible={modalVisible} setModalVisible={setModalVisible} />
+                <BookingDialog modalVisible={modalVisible} setModalVisible={setModalVisible} hotel={hotel} />
               </Modal>
             </TouchableOpacity>
           </View>
