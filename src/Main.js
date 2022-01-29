@@ -43,8 +43,8 @@ const MainPage = () => {
             iconName = focused ? 'favorite' : 'favorite-outline';
           } else if (route.name === 'Profiles') {
             iconName = focused ? 'person' : 'person-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'settings' : 'settings';
+          } else if (route.name === 'History') {
+            iconName = focused ? 'history' : 'history';
           }
 
           // You can return any component that you like here!
@@ -56,7 +56,7 @@ const MainPage = () => {
     >
       <Tab.Screen name="Searchs" component={SearchStackScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Wishlists" component={FavoritesScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="History" component={SettingsScreen} />
       <Tab.Screen name="Profiles" component={ProfileStackScreen} options={{ headerShown: false }} />
       {/* <Tab.Screen name="Login" component={LoginScreen} /> */}
     </Tab.Navigator>

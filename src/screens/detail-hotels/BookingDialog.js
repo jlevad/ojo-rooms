@@ -46,12 +46,16 @@ const BookingDialog = (props) => {
       total_guest: parseInt(totalGuest) || 0,
     }
 
-    axios.post(`${API.base_url}bookings/add`, body)
-      .then((res) => {
-        alert(`booking success`);
-      }).catch((err) => {
-        alert(`booking failed, ${err}`);
-      })
+    if (totalGuest !== '') {
+      axios.post(`${API.base_url}bookings/add`, body)
+        .then((res) => {
+          alert(`booking success`);
+        }).catch((err) => {
+          alert(`booking failed, ${err}`);
+        })
+    } else {
+      alert(`total guest must be filled`)
+    }
   }
 
   return (
